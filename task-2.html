@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libra | Digital Library</title>
+
+<style>
+:root {
+  --primary: #176b55;
+  --dark: #123d32;
+  --bg: #f4f7f5;
+  --white: #ffffff;
+  --text: #263b34;
+  --muted: #718078;
+  --border: #e1e9e4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: auto;
+  padding: 17px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.logo span {
+  color: #e6a04b;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: var(--muted);
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.hero {
+  background: linear-gradient(120deg, #123d32, #217b60);
+  color: white;
+  padding: 65px 24px;
+}
+
+.hero-content {
+  max-width: 1150px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr;
+  align-items: center;
+  gap: 40px;
+}
+
+.hero h1 {
+  font-size: clamp(34px, 5vw, 54px);
+  line-height: 1.15;
+  margin: 18px 0;
+}
+
+.hero p {
+  color: #d6e9df;
+  max-width: 580px;
+  line-height: 1.8;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.hero-art {
+  font-size: 125px;
+  text-align: center;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 45px 24px;
+}
+
+.section-heading {
+  font-size: 27px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: -1px;
+}
+
+.stat-card {
+  background: var(--white);
+  padding: 23px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+}
+
+.stat-card strong {
+  display: block;
+  color: var(--primary);
+  font-size: 29px;
+}
+
+.stat-card span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.category {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 18px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.25s;
+}
+
+.category:hover,
+.category.selected {
+  border-color: var(--primary);
+  background: #e7f3ed;
+  transform: translateY(-3px);
+}
+
+.category .emoji {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.category small {
+  color: var(--muted);
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.toolbar input,
+.toolbar select {
+  min-width: 0;
+  width: 100%;
+  padding: 13px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  outline-color: var(--primary);
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.book-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px #173c2b12;
+}
+
+.cover {
+  height: 205px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: #e7eee8;
+}
+
+.cover img {
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(3px 5px 5px #0002);
+}
+
+.book-info {
+  padding: 17px;
+}
+
+.book-info h3 {
+  font-size: 16px;
+  margin-bottom: 7px;
+}
+
+.author, .book-category {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.status {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 6px 0 13px;
+}
+
+.available {
+  color: #187246;
+  background: #e0f5e8;
+}
+
+.unavailable {
+  color: #b13b36;
+  background: #fde8e6;
+}
+
+.book-info button {
+  width: 100%;
+  border: 0;
+  background: var(--primary);
+  color: white;
+  padding: 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.book-info button:hover {
+  background: var(--dark);
+}
+
+.book-info button:disabled {
+  background: #cbd5cf;
+  color: #52635a;
+  cursor: not-allowed;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  padding: 35px;
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+  color: var(--muted);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+  text-align: left;
+}
+
+th, td {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: #eaf3ed;
+  color: var(--dark);
+  font-size: 14px;
+}
+
+td {
+  font-size: 14px;
+}
+
+tbody tr:hover {
+  background: #f5faf6;
+}
+
+.rules {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.rule {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  display: flex;
+  gap: 15px;
+}
+
+.rule-icon {
+  font-size: 26px;
+}
+
+.rule p {
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+.notice {
+  background: #fff5dc;
+  color: #77551a;
+  border-radius: 9px;
+  padding: 15px;
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+footer {
+  background: #123d32;
+  color: #d6e9df;
+  text-align: center;
+  padding: 28px 15px;
+  line-height: 1.8;
+}
+
+footer strong {
+  color: white;
+}
+
+@media (max-width: 900px) {
+  .book-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .categories {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr auto;
+  }
+
+  .hero-art {
+    font-size: 90px;
+  }
+}
+
+@media (max-width: 650px) {
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 13px;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-art {
+    display: none;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .cover {
+    height: 165px;
+  }
+
+  .book-info {
+    padding: 12px;
+  }
+
+  .book-info h3 {
+    font-size: 14px;
+  }
+
+  .rules {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 35px 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .book-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a class="logo" href="#home">Libra<span>.</span></a>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#categories">Categories</a>
+      <a href="#catalog">Books</a>
+      <a href="#table">Catalog Table</a>
+      <a href="#rules">Library Rules</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div>
+      <div class="eyebrow">Your knowledge destination</div>
+      <h1>Discover your next favourite book.</h1>
+      <p>
+        Explore our digital library, discover authors, browse
+        categories and check book availability in one place.
+      </p>
+    </div>
+    <div class="hero-art" aria-hidden="true">📚</div>
+  </div>
+</section>
+
+<main>
+  <section class="container">
+    <div class="stats">
+      <div class="stat-card">
+        <strong id="totalBooks">8</strong>
+        <span>Books in Catalog</span>
+      </div>
+      <div class="stat-card">
+        <strong id="availableBooks">6</strong>
+        <span>Available to Borrow</span>
+      </div>
+      <div class="stat-card">
+        <strong id="categoryCount">5</strong>
+        <span>Book Categories</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="categories">
+    <h2 class="section-heading">Explore Categories</h2>
+    <p class="subtitle">Choose a category to find books you love.</p>
+
+    <div class="categories">
+      <button class="category selected" data-category="All">
+        <span class="emoji">📚</span>All Books
+        <br><small>Entire catalog</small>
+      </button>
+      <button class="category" data-category="Programming">
+        <span class="emoji">💻</span>Programming
+        <br><small>Code and develop</small>
+      </button>
+      <button class="category" data-category="Science">
+        <span class="emoji">🔬</span>Science
+        <br><small>Explore ideas</small>
+      </button>
+      <button class="category" data-category="Fiction">
+        <span class="emoji">📖</span>Fiction
+        <br><small>Stories and novels</small>
+      </button>
+      <button class="category" data-category="Self-help">
+        <span class="emoji">🌱</span>Self-help
+        <br><small>Grow yourself</small>
+      </button>
+    </div>
+  </section>
+
+  <section class="container" id="catalog">
+    <h2 class="section-heading">Library Collection</h2>
+    <p class="subtitle">Search by title or author, then apply filters.</p>
+
+    <div class="toolbar">
+      <input type="search" id="searchInput"
+             placeholder="🔍 Search books or authors..."
+             aria-label="Search books or authors">
+
+      <select id="categoryFilter" aria-label="Filter by category">
+        <option value="All">All Categories</option>
+        <option value="Programming">Programming</option>
+        <option value="Science">Science</option>
+        <option value="Fiction">Fiction</option>
+        <option value="Self-help">Self-help</option>
+      </select>
+
+      <select id="statusFilter" aria-label="Filter by availability">
+        <option value="All">All Availability</option>
+        <option value="Available">Available</option>
+        <option value="Borrowed">Borrowed</option>
+      </select>
+    </div>
+
+    <div class="book-grid" id="bookGrid"></div>
+  </section>
+
+  <section class="container" id="table">
+    <h2 class="section-heading">Complete Catalog</h2>
+    <p class="subtitle">View book information in a structured table.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Book ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>Availability</th>
+          </tr>
+        </thead>
+        <tbody id="catalogTable"></tbody>
+      </table>
+    </div>
+
+    <p class="notice">
+      Note: This demonstration uses sample catalog data.
+      Borrowing actions update availability only in the current page session.
+    </p>
+  </section>
+
+  <section class="container" id="rules">
+    <h2 class="section-heading">Library Rules</h2>
+    <p class="subtitle">Please follow these rules when using the library.</p>
+
+    <div class="rules">
+      <article class="rule">
+        <span class="rule-icon">📅</span>
+        <div>
+          <h3>Borrowing Period</h3>
+          <p>Books may be borrowed for up to 14 days in this sample policy.</p>
+        </div>
+      </article>
+
+      <article class="rule">
+        <span class="rule-icon">🔄</span>
+        <div>
+          <h3>Renewal</h3>
+          <p>Renew a book before its due date, subject to library policy.</p>
+        </div>
+      </article>
+
+      <article class="rule">
+        <span class="rule-icon">📕</span>
+        <div>
+          <h3>Care for Books</h3>
+          <p>Do not damage, mark, or tear pages from library books.</p>
+        </div>
+      </article>
+
+      <article class="rule">
+        <span class="rule-icon">⏰</span>
+        <div>
+          <h3>Return on Time</h3>
+          <p>Return books on time. Any late fee depends on actual library rules.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <strong>Libra. Digital Library</strong>
+  <p>Read more. Learn more. Grow more.</p>
+  <p>Student Mini Project · HTML, CSS & JavaScript</p>
+  <p>© <span id="year"></span> Digital Library</p>
+</footer>
+
+<script>
+const books = [
+  {
+    id: "B001",
+    title: "Python Crash Course",
+    author: "Eric Matthes",
+    category: "Programming",
+    available: true,
+    cover: "https://covers.openlibrary.org/b/isbn/9781593279288-L.jpg"
+  },
+  {
+    id: "B002",
+    title: "Clean Code",
+    author: "Robert C. Martin",
+    category: "Programming",
+    available: true,
+    cover: "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg"
+  },
+  {
+    id: "B003",
+    title: "A Brief History of Time",
+    author: "Stephen Hawking",
+    category: "Science",
+    available: true,
+    cover: "https://covers.openlibrary.org/b/isbn/9780553380163-L.jpg"
+  },
+  {
+    id: "B004",
+    title: "Cosmos",
+    author: "Carl Sagan",
+    category: "Science",
+    available: false,
+    cover: "https://covers.openlibrary.org/b/isbn/9780345539434-L.jpg"
+  },
+  {
+    id: "B005",
+    title: "The Alchemist",
+    author: "Paulo Coelho",
+    category: "Fiction",
+    available: true,
+    cover: "https://covers.openlibrary.org/b/isbn/9780061122415-L.jpg"
+  },
+  {
+    id: "B006",
+    title: "1984",
+    author: "George Orwell",
+    category: "Fiction",
+    available: true,
+    cover: "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg"
+  },
+  {
+    id: "B007",
+    title: "Atomic Habits",
+    author: "James Clear",
+    category: "Self-help",
+    available: false,
+    cover: "https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg"
+  },
+  {
+    id: "B008",
+    title: "Deep Work",
+    author: "Cal Newport",
+    category: "Self-help",
+    available: true,
+    cover: "https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg"
+  }
+];
+
+const bookGrid = document.getElementById("bookGrid");
+const catalogTable = document.getElementById("catalogTable");
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+const statusFilter = document.getElementById("statusFilter");
+
+let selectedCategory = "All";
+
+function getFilteredBooks() {
+  const query = searchInput.value.trim().toLowerCase();
+  const category = categoryFilter.value;
+  const status = statusFilter.value;
+
+  return books.filter(book => {
+    const matchesText =
+      book.title.toLowerCase().includes(query) ||
+      book.author.toLowerCase().includes(query);
+
+    const matchesCategory =
+      (category === "All" || book.category === category) &&
+      (selectedCategory === "All" ||
+       book.category === selectedCategory);
+
+    const matchesStatus =
+      status === "All" ||
+      (status === "Available" && book.available) ||
+      (status === "Borrowed" && !book.available);
+
+    return matchesText && matchesCategory && matchesStatus;
+  });
+}
+
+function renderBooks() {
+  const filtered = getFilteredBooks();
+
+  document.getElementById("totalBooks").textContent = books.length;
+  document.getElementById("availableBooks").textContent =
+    books.filter(book => book.available).length;
+  document.getElementById("categoryCount").textContent =
+    new Set(books.map(book => book.category)).size;
+
+  bookGrid.replaceChildren();
+  catalogTable.replaceChildren();
+
+  if (filtered.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "no-results";
+    empty.textContent = "No books found. Try another search or filter.";
+    bookGrid.appendChild(empty);
+  }
+
+  filtered.forEach(book => {
+    const card = document.createElement("article");
+    card.className = "book-card";
+
+    const cover = document.createElement("div");
+    cover.className = "cover";
+
+    const img = document.createElement("img");
+    img.src = book.cover;
+    img.alt = "Cover of " + book.title;
+    img.loading = "lazy";
+
+    img.addEventListener("error", () => {
+      cover.textContent = "📚";
+      cover.style.fontSize = "70px";
+    }, { once: true });
+
+    cover.appendChild(img);
+
+    const info = document.createElement("div");
+    info.className = "book-info";
+
+    const title = document.createElement("h3");
+    title.textContent = book.title;
+
+    const author = document.createElement("p");
+    author.className = "author";
+    author.textContent = "By " + book.author;
+
+    const category = document.createElement("p");
+    category.className = "book-category";
+    category.textContent = book.category;
+
+    const status = document.createElement("span");
+    status.className =
+      "status " + (book.available ? "available" : "unavailable");
+    status.textContent = book.available ? "Available" : "Borrowed";
+
+    const button = document.createElement("button");
+    button.textContent = book.available ? "Borrow Book" : "Unavailable";
+    button.disabled = !book.available;
+
+    button.addEventListener("click", () => {
+      if (!book.available) return;
+
+      book.available = false;
+      alert('"' + book.title + '" has been marked as borrowed.');
+      renderBooks();
+    });
+
+    info.append(title, author, category, status, button);
+    card.append(cover, info);
+    bookGrid.appendChild(card);
+
+    const row = document.createElement("tr");
+
+    [
+      book.id,
+      book.title,
+      book.author,
+      book.category,
+      book.available ? "Available" : "Borrowed"
+    ].forEach(value => {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+
+    catalogTable.appendChild(row);
+  });
+}
+
+searchInput.addEventListener("input", renderBooks);
+categoryFilter.addEventListener("change", () => {
+  selectedCategory = "All";
+
+  document.querySelectorAll(".category").forEach(button => {
+    button.classList.toggle(
+      "selected",
+      button.dataset.category === "All"
+    );
+  });
+
+  renderBooks();
+});
+
+statusFilter.addEventListener("change", renderBooks);
+
+document.querySelectorAll(".category").forEach(button => {
+  button.addEventListener("click", () => {
+    selectedCategory = button.dataset.category;
+    categoryFilter.value = "All";
+
+    document.querySelectorAll(".category").forEach(item => {
+      item.classList.toggle("selected", item === button);
+    });
+
+    renderBooks();
+    document.getElementById("catalog").scrollIntoView({
+      behavior: "smooth"
+    });
+  });
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+renderBooks();
+</script>
+
+</body>
+</html>

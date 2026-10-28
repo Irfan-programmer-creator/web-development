@@ -1,0 +1,973 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS | Gaming & Esports</title>
+
+<style>
+:root {
+  --bg: #090b13;
+  --panel: #121624;
+  --panel2: #191f30;
+  --neon: #a8ff3e;
+  --purple: #9b7bff;
+  --text: #f5f7ff;
+  --muted: #929bb0;
+  --border: #292f43;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.container {
+  width: min(1150px, 92%);
+  margin: auto;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #090b13ed;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+nav {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.logo span {
+  color: var(--neon);
+}
+
+.nav-links {
+  display: flex;
+  gap: 23px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: var(--muted);
+  font-size: 14px;
+  transition: color .25s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--neon);
+}
+
+.hero {
+  min-height: 440px;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(ellipse at 80% 30%, #5533aa55, transparent 40%),
+    radial-gradient(ellipse at 20% 100%, #a8ff3e17, transparent 40%),
+    #0b0e19;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1.4fr .6fr;
+  gap: 30px;
+  align-items: center;
+  padding-top: 55px;
+  padding-bottom: 55px;
+}
+
+.tag {
+  display: inline-block;
+  color: var(--neon);
+  background: #a8ff3e12;
+  border: 1px solid #a8ff3e55;
+  border-radius: 5px;
+  padding: 5px 11px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.hero h1 {
+  font-size: clamp(40px, 6vw, 68px);
+  line-height: 1.05;
+  margin: 22px 0;
+}
+
+.hero h1 span {
+  color: var(--neon);
+  text-shadow: 0 0 25px #a8ff3e40;
+}
+
+.hero p {
+  color: var(--muted);
+  max-width: 570px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  border: 1px solid var(--neon);
+  background: var(--neon);
+  color: #101508;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: .25s;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 22px #a8ff3e45;
+}
+
+.btn.secondary {
+  color: var(--text);
+  background: transparent;
+  border-color: var(--border);
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+.hero-art {
+  text-align: center;
+  font-size: clamp(100px, 16vw, 175px);
+  filter: drop-shadow(0 0 35px #9b7bff66);
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-14px) rotate(3deg); }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 28px;
+}
+
+.stat {
+  background: var(--panel);
+  padding: 19px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+
+.stat strong {
+  display: block;
+  color: var(--neon);
+  font-size: 27px;
+}
+
+.stat small {
+  color: var(--muted);
+}
+
+section.content-section {
+  padding: 65px 0;
+  scroll-margin-top: 70px;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.section-head h2 {
+  font-size: 29px;
+}
+
+.section-head h2 span {
+  color: var(--neon);
+}
+
+.section-head p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 19px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  overflow: hidden;
+  transition: .3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon);
+  box-shadow: 0 10px 30px #0005;
+}
+
+.game-art {
+  min-height: 155px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 68px;
+  background:
+    radial-gradient(circle at 50% 50%, #9b7bff38, transparent 60%),
+    linear-gradient(135deg, #252b43, #151827);
+}
+
+.card-body {
+  padding: 18px;
+}
+
+.card-body h3 {
+  margin-bottom: 7px;
+}
+
+.card-body p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 13px 0;
+}
+
+.pill {
+  background: var(--panel2);
+  color: #c9d0e3;
+  padding: 4px 9px;
+  font-size: 11px;
+  border-radius: 4px;
+}
+
+.pill.green {
+  color: var(--neon);
+  background: #a8ff3e13;
+}
+
+.tournament-list {
+  display: grid;
+  gap: 12px;
+}
+
+.tournament {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr .8fr .7fr;
+  gap: 15px;
+  align-items: center;
+  padding: 18px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+
+.tournament h3 {
+  font-size: 16px;
+}
+
+.tournament p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.prize {
+  color: var(--neon);
+  font-weight: bold;
+}
+
+.team-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 9px;
+  margin-bottom: 12px;
+  font-size: 23px;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th, td {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: #171c2b;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+td {
+  font-size: 14px;
+}
+
+tbody tr:hover {
+  background: #a8ff3e08;
+}
+
+.rank {
+  color: var(--neon);
+  font-weight: bold;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #29213f;
+}
+
+.points {
+  color: var(--neon);
+  font-weight: bold;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.news-icon {
+  height: 130px;
+  display: grid;
+  place-items: center;
+  font-size: 53px;
+  background: linear-gradient(135deg, #252b43, #302148);
+}
+
+.news-card .card-body {
+  flex: 1;
+}
+
+.news-card button {
+  margin-top: 15px;
+  border: 0;
+  background: none;
+  color: var(--neon);
+  font-weight: bold;
+}
+
+.news-detail {
+  display: none;
+  margin-top: 12px;
+  color: #d5dbea;
+  font-size: 13px;
+}
+
+.news-detail.open {
+  display: block;
+}
+
+footer {
+  padding: 30px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+footer strong {
+  color: var(--neon);
+}
+
+@media (max-width: 800px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-art {
+    display: none;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tournament {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  nav {
+    padding: 15px 0;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .nav-links {
+    gap: 12px 17px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tournament {
+    grid-template-columns: 1fr;
+  }
+
+  .section-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  section.content-section {
+    padding: 45px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav class="container">
+    <a class="logo" href="#home">NEXUS<span>.</span></a>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#games">Games</a>
+      <a href="#tournaments">Tournaments</a>
+      <a href="#teams">Teams</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#news">News</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="container hero-content">
+    <div>
+      <span class="tag">THE GAMING COMMUNITY</span>
+      <h1>PLAY HARD.<br> <span>RISE HIGH.</span></h1>
+      <p>
+        Discover competitive games, follow esports teams, explore
+        tournaments and track player rankings in one gaming hub.
+      </p>
+      <div class="hero-buttons">
+        <a class="btn" href="#games">Explore Games ↗</a>
+        <a class="btn secondary" href="#tournaments">View Tournaments</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">🎮</div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="stats">
+    <div class="stat">
+      <strong>08</strong>
+      <small>Featured Games</small>
+    </div>
+    <div class="stat">
+      <strong>12</strong>
+      <small>Community Teams</small>
+    </div>
+    <div class="stat">
+      <strong>04</strong>
+      <small>Sample Events</small>
+    </div>
+    <div class="stat">
+      <strong>1.2K</strong>
+      <small>Demo Members</small>
+    </div>
+  </div>
+</div>
+
+<section class="content-section" id="games">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Featured <span>Games</span></h2>
+        <p>Explore popular gaming titles and genres.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <div class="game-art">🔫</div>
+        <div class="card-body">
+          <h3>Valorant</h3>
+          <p>A tactical 5v5 shooter where strategy and aim matter.</p>
+          <div class="meta">
+            <span class="pill green">FPS</span>
+            <span class="pill">PC</span>
+            <span class="pill">Competitive</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="game-art">🪂</div>
+        <div class="card-body">
+          <h3>BGMI</h3>
+          <p>A battle royale game focused on survival and teamwork.</p>
+          <div class="meta">
+            <span class="pill green">Battle Royale</span>
+            <span class="pill">Mobile</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="game-art">⚔️</div>
+        <div class="card-body">
+          <h3>League of Legends</h3>
+          <p>A strategic multiplayer arena with unique champions.</p>
+          <div class="meta">
+            <span class="pill green">MOBA</span>
+            <span class="pill">PC</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="game-art">🚗</div>
+        <div class="card-body">
+          <h3>Rocket League</h3>
+          <p>High-speed football action with rocket-powered cars.</p>
+          <div class="meta">
+            <span class="pill green">Sports</span>
+            <span class="pill">PC / Console</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="game-art">⛏️</div>
+        <div class="card-body">
+          <h3>Minecraft</h3>
+          <p>Build, explore and survive in an open block-based world.</p>
+          <div class="meta">
+            <span class="pill green">Sandbox</span>
+            <span class="pill">Multiplayer</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="game-art">🏎️</div>
+        <div class="card-body">
+          <h3>Forza Horizon</h3>
+          <p>Explore open-world racing and competitive driving.</p>
+          <div class="meta">
+            <span class="pill green">Racing</span>
+            <span class="pill">PC / Console</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" id="tournaments">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Esports <span>Tournaments</span></h2>
+        <p>Sample events for the community calendar.</p>
+      </div>
+    </div>
+
+    <div class="tournament-list">
+      <article class="tournament">
+        <div>
+          <h3>Valorant Community Cup</h3>
+          <p>PC · 5 vs 5</p>
+        </div>
+        <div>
+          <p>Date</p>
+          <strong>15 Nov 2026</strong>
+        </div>
+        <div>
+          <p>Prize Pool</p>
+          <span class="prize">₹10,000</span>
+        </div>
+        <div><span class="pill green">Registration Open</span></div>
+      </article>
+
+      <article class="tournament">
+        <div>
+          <h3>BGMI Squad Showdown</h3>
+          <p>Mobile · Squad</p>
+        </div>
+        <div>
+          <p>Date</p>
+          <strong>22 Nov 2026</strong>
+        </div>
+        <div>
+          <p>Prize Pool</p>
+          <span class="prize">₹15,000</span>
+        </div>
+        <div><span class="pill green">Registration Open</span></div>
+      </article>
+
+      <article class="tournament">
+        <div>
+          <h3>League Arena Series</h3>
+          <p>PC · Team Event</p>
+        </div>
+        <div>
+          <p>Date</p>
+          <strong>05 Dec 2026</strong>
+        </div>
+        <div>
+          <p>Prize Pool</p>
+          <span class="prize">₹8,000</span>
+        </div>
+        <div><span class="pill">Upcoming</span></div>
+      </article>
+
+      <article class="tournament">
+        <div>
+          <h3>Rocket League Open</h3>
+          <p>Cross-platform</p>
+        </div>
+        <div>
+          <p>Date</p>
+          <strong>12 Dec 2026</strong>
+        </div>
+        <div>
+          <p>Prize Pool</p>
+          <span class="prize">₹5,000</span>
+        </div>
+        <div><span class="pill">Upcoming</span></div>
+      </article>
+    </div>
+    <p style="color:var(--muted);font-size:12px;margin-top:15px">
+      Demo schedule only. Dates, prize pools and registration statuses
+      are fictional examples, not verified live events.
+    </p>
+  </div>
+</section>
+
+<section class="content-section" id="teams">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Featured <span>Teams</span></h2>
+        <p>Meet teams featured in our sample esports community.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <div class="card-body">
+          <div class="team-icon">🐺</div>
+          <h3>Shadow Wolves</h3>
+          <p>Game: Valorant</p>
+          <div class="meta">
+            <span class="pill green">Competitive</span>
+            <span class="pill">5 Players</span>
+          </div>
+          <p>Known in this demo for coordinated team play.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-body">
+          <div class="team-icon">🔥</div>
+          <h3>Blaze Squad</h3>
+          <p>Game: BGMI</p>
+          <div class="meta">
+            <span class="pill green">Battle Royale</span>
+            <span class="pill">4 Players</span>
+          </div>
+          <p>A sample squad built around fast rotations.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-body">
+          <div class="team-icon">⚡</div>
+          <h3>Nova Esports</h3>
+          <p>Game: League of Legends</p>
+          <div class="meta">
+            <span class="pill green">MOBA</span>
+            <span class="pill">5 Players</span>
+          </div>
+          <p>A demo roster focused on teamwork and strategy.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" id="leaderboard">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Player <span>Leaderboard</span></h2>
+        <p>Sample player rankings based on demo points.</p>
+      </div>
+      <select id="gameFilter" aria-label="Filter leaderboard by game"
+        style="background:var(--panel);color:white;border:1px solid var(--border);padding:10px;border-radius:6px">
+        <option value="All">All Games</option>
+        <option value="Valorant">Valorant</option>
+        <option value="BGMI">BGMI</option>
+        <option value="League of Legends">League of Legends</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>Game</th>
+            <th>Wins</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" id="news">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Gaming <span>News</span></h2>
+        <p>Example articles for a gaming news section.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <article class="card news-card">
+        <div class="news-icon">🎯</div>
+        <div class="card-body">
+          <span class="pill green">Esports</span>
+          <h3>How to Build a Winning Team</h3>
+          <p>Learn how communication and role selection can improve team play.</p>
+          <button onclick="toggleNews('news1', this)"
+            aria-expanded="false">Read more ↗</button>
+          <p class="news-detail" id="news1">
+            Define clear roles, practise callouts, review mistakes after
+            matches and build strategies that suit your team's strengths.
+          </p>
+        </div>
+      </article>
+
+      <article class="card news-card">
+        <div class="news-icon">🖥️</div>
+        <div class="card-body">
+          <span class="pill green">Hardware</span>
+          <h3>Improve Your Gaming Setup</h3>
+          <p>Simple tips for a comfortable and responsive gaming experience.</p>
+          <button onclick="toggleNews('news2', this)"
+            aria-expanded="false">Read more ↗</button>
+          <p class="news-detail" id="news2">
+            Keep drivers updated, close unnecessary background applications,
+            use a comfortable setup and choose settings your system can handle.
+          </p>
+        </div>
+      </article>
+
+      <article class="card news-card">
+        <div class="news-icon">🏆</div>
+        <div class="card-body">
+          <span class="pill green">Community</span>
+          <h3>Getting Started in Esports</h3>
+          <p>Discover ways to practise and join competitive gaming communities.</p>
+          <button onclick="toggleNews('news3', this)"
+            aria-expanded="false">Read more ↗</button>
+          <p class="news-detail" id="news3">
+            Learn the rules of your chosen game, play consistently,
+            review match performance and look for reputable community events.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <strong>NEXUS. GAMING COMMUNITY</strong>
+    <p>Play together. Compete together. Rise together.</p>
+    <p>Student Web Development Project · © <span id="year"></span></p>
+  </div>
+</footer>
+
+<script>
+const players = [
+  {name:"ShadowX", game:"Valorant", wins:42, points:2850},
+  {name:"BlazeYT", game:"BGMI", wins:38, points:2640},
+  {name:"NovaPro", game:"League of Legends", wins:35, points:2510},
+  {name:"PixelAce", game:"Valorant", wins:31, points:2320},
+  {name:"StormGG", game:"BGMI", wins:28, points:2180},
+  {name:"CyberFox", game:"League of Legends", wins:26, points:1950},
+  {name:"RapidFire", game:"Valorant", wins:23, points:1810}
+];
+
+function renderLeaderboard() {
+  const selectedGame = document.getElementById("gameFilter").value;
+  const filtered = players
+    .filter(player => selectedGame === "All" ||
+      player.game === selectedGame)
+    .sort((a, b) => b.points - a.points);
+
+  const tbody = document.getElementById("leaderboardBody");
+  tbody.replaceChildren();
+
+  filtered.forEach((player, index) => {
+    const row = document.createElement("tr");
+
+    const rank = document.createElement("td");
+    rank.className = "rank";
+    rank.textContent = "#" + (index + 1);
+
+    const playerCell = document.createElement("td");
+    const playerDiv = document.createElement("div");
+    playerDiv.className = "player";
+
+    const avatar = document.createElement("span");
+    avatar.className = "avatar";
+    avatar.textContent = "🎮";
+
+    const name = document.createElement("strong");
+    name.textContent = player.name;
+
+    playerDiv.append(avatar, name);
+    playerCell.appendChild(playerDiv);
+
+    const game = document.createElement("td");
+    game.textContent = player.game;
+
+    const wins = document.createElement("td");
+    wins.textContent = player.wins;
+
+    const points = document.createElement("td");
+    points.className = "points";
+    points.textContent = player.points.toLocaleString();
+
+    row.append(rank, playerCell, game, wins, points);
+    tbody.appendChild(row);
+  });
+}
+
+document.getElementById("gameFilter")
+  .addEventListener("change", renderLeaderboard);
+
+function toggleNews(id, button) {
+  const detail = document.getElementById(id);
+  const isOpen = detail.classList.toggle("open");
+
+  button.textContent = isOpen ? "Read less ↑" : "Read more ↗";
+  button.setAttribute("aria-expanded", String(isOpen));
+}
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+const navLinks = document.querySelectorAll(".nav-links a");
+navLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.forEach(item => item.classList.remove("active"));
+    link.classList.add("active");
+  });
+});
+
+renderLeaderboard();
+</script>
+
+</body>
+</html>
